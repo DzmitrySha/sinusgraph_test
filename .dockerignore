@@ -1,0 +1,12 @@
+.idea/
+venv/
+.venv/
+media/
+__pycache__
+.mypy_cache/
+git/
+.git/
+.gitignore
+*.log
+*.pot
+*.pyc
