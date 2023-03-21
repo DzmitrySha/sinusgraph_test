@@ -1,0 +1,10 @@
+.idea/
+venv/
+.venv/
+media/
+__pycache__
+.mypy_cache/
+*.log
+*.pot
+*.pyc
+db.sqlite3
