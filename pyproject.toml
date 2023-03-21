@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "sinus"
+version = "0.1.0"
+description = ""
+authors = ["d.shapovalov"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+flake8 = "^6.0.0"
+django = "^4.1.7"
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
