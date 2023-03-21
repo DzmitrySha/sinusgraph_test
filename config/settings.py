@@ -25,6 +25,9 @@ ALLOWED_HOSTS = ['*',
                  'localhost',
                  '127.0.0.1',
                  ]
+# CSRF_TRUSTED_ORIGINS = []
+# X_FRAME_OPTIONS = '*'
+
 
 # Application definition
 
@@ -86,8 +89,20 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 
 DATABASES = {
-    "default": dj_database_url.config(conn_max_age=600)
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3',
+    }
 }
+
+# DATABASES['default'] = dj_database_url.config(
+#     conn_max_age=600,
+#     conn_health_checks=True,
+# )
+
+# DATABASES = {
+#     "default": dj_database_url.config(conn_max_age=600)
+# }
 
 
 # Password validation
