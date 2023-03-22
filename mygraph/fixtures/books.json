@@ -1,0 +1,68 @@
+[
+  {
+    "fields": {
+      "name": "Fantastic"
+    },
+    "model": "mygraph.category",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "name": "Horror"
+    },
+    "model": "mygraph.category",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "name": "Comedy"
+    },
+    "model": "mygraph.category",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "category": 1,
+      "name": "Nowhere in space",
+      "notes": "Good fantastic novel"
+    },
+    "model": "mygraph.book",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "category": 1,
+      "name": "Something better",
+      "notes": "Comes from another world"
+    },
+    "model": "mygraph.book",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "category": 2,
+      "name": "Dark Black House",
+      "notes": "Something bloody days in dark"
+    },
+    "model": "mygraph.book",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "category": 2,
+      "name": "Holly Knife",
+      "notes": "About murder in kitchen"
+    },
+    "model": "mygraph.book",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "category": 3,
+      "name": "Smiley child",
+      "notes": "Beautiful story about child"
+    },
+    "model": "mygraph.book",
+    "pk": 5
+  }
+]
