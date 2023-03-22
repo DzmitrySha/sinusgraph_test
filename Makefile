@@ -1,4 +1,5 @@
 # содержит быстрые команды для Linux
+# Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 # Для Windows дополнительно необходимо установить "make" командой: choco install make
 
 LOCAL := poetry run python manage.py
