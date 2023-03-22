@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     # собираем статику с помощью whitenoise
     'whitenoise.runserver_nostatic',
     "bootstrap4",
+    "graphene_django",
+    "mygraph",
 ]
 
 # если включён DEBUG = True, то добавляет возможность
@@ -153,3 +155,7 @@ FIXTURE_DIRS = ['fixtures']
 
 # default login redirect url, if needed
 # LOGIN_REDIRECT_URL = "/"
+
+GRAPHENE = {
+    "SCHEMA": "mygraph.schema.schema"
+}
