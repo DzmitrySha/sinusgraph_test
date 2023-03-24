@@ -41,8 +41,12 @@ INSTALLED_APPS = [
     # собираем статику с помощью whitenoise
     'whitenoise.runserver_nostatic',
     "bootstrap4",
+    # модуль для работы с graphQL
     "graphene_django",
-    "mygraph",
+    # приложение mygraph
+    "mygraph.apps.MygraphConfig",
+    # django REST framework
+    'rest_framework',
 ]
 
 # если включён DEBUG = True, то добавляет возможность
@@ -147,7 +151,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Default primary key field type
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Папка для фикстур по-умолчанию
@@ -158,4 +161,15 @@ FIXTURE_DIRS = ['fixtures']
 
 GRAPHENE = {
     "SCHEMA": "mygraph.schema.schema"
+}
+
+REST_FRAMEWORK = {
+    # 'DEFAULT_AUTHENTICATION_CLASSES': [
+    #     'rest_framework.authentication.TokenAuthentication',
+    # ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
 }
