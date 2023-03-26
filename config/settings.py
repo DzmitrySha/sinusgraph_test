@@ -232,7 +232,7 @@ REST_FRAMEWORK = {
 # }
 
 AUTHENTICATION_BACKENDS = ('django_keycloak.backends.KeycloakAuthenticationBackend',)
-
+AUTH_USER_MODEL = "django_keycloak.KeycloakUserAutoId"
 
 KEYCLOAK_CONFIG = {
     # The Keycloak's Public Server URL (e.g. http://localhost:8080)
@@ -241,21 +241,21 @@ KEYCLOAK_CONFIG = {
     # (e.g. http://keycloak:8080 for a docker service named keycloak)
 
     # Optional: Default is SERVER_URL
-    # 'INTERNAL_URL': '<INTERNAL_SERVER_URL>',
+    'INTERNAL_URL': 'http://localhost:8282',
 
     # Override for default Keycloak's base path
     # Default is '/auth/'
-    'BASE_PATH': '/auth/',
+    'BASE_PATH': '/',
     # The name of the Keycloak's realm
     'REALM': 'demo',
     # The ID of this client in the above Keycloak realm
-    'CLIENT_ID': 'backend',
+    'CLIENT_ID': 'demo',
     # The secret for this confidential client
     'CLIENT_SECRET_KEY': os.environ.get('CLIENT_SECRET_KEY',), # в файле .env
     # The name of the admin role for the client
-    # 'CLIENT_ADMIN_ROLE': '<CLIENT_ADMIN_ROLE>',
+    'CLIENT_ADMIN_ROLE': 'user',
     # The name of the admin role for the realm
-    # 'REALM_ADMIN_ROLE': '<REALM_ADMIN_ROLE>',
+    'REALM_ADMIN_ROLE': 'admin',
     # Regex formatted URLs to skip authentication
     'EXEMPT_URIS': [],
     # Flag if the token should be introspected or decoded (default is False)
@@ -270,4 +270,3 @@ KEYCLOAK_CONFIG = {
     'TOKEN_PREFIX': 'Bearer'
 }
 
-AUTH_USER_MODEL = "django_keycloak.KeycloakUserAutoId"
