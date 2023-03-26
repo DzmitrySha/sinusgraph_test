@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # собираем статику с помощью whitenoise
     'whitenoise.runserver_nostatic',
-    "bootstrap4",
     # модуль для работы с graphQL
     "graphene_django",
     # приложение mygraph
@@ -49,7 +48,9 @@ INSTALLED_APPS = [
     # django REST framework
     'rest_framework',
     # модуль для аутентификации по JWT
-    'rest_framework_simplejwt',
+    # 'rest_framework_simplejwt',
+    # модуль для аутентификации через keycloak
+    'django_keycloak',
 ]
 
 # если включён DEBUG = True, то добавляет возможность
@@ -72,6 +73,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # добавлен слой для работы модуля django-uw-keycloak
+    'django_keycloak.middleware.KeycloakMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -167,17 +170,18 @@ GRAPHENE = {
 }
 
 REST_FRAMEWORK = {
-    'DEFAULT_RENDER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
-    ],
+    # 'DEFAULT_RENDER_CLASSES': [
+    #     'rest_framework.renderers.JSONRenderer',
+    #     'rest_framework.renderers.BrowsableAPIRenderer',
+    # ],
 
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny'
     ],
 
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'django_keycloak.authentication.KeycloakAuthentication',
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
         # 'rest_framework.authentication.BasicAuthentication',
         # 'rest_framework.authentication.SessionAuthentication',
     ],
@@ -187,42 +191,83 @@ REST_FRAMEWORK = {
 }
 
 
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-    "ROTATE_REFRESH_TOKENS": False,
-    "BLACKLIST_AFTER_ROTATION": False,
-    "UPDATE_LAST_LOGIN": False,
+# SIMPLE_JWT = {
+#     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+#     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+#     "ROTATE_REFRESH_TOKENS": False,
+#     "BLACKLIST_AFTER_ROTATION": False,
+#     "UPDATE_LAST_LOGIN": False,
+#
+#     "ALGORITHM": "HS256",
+#     "SIGNING_KEY": SECRET_KEY, # SECRET_KEY = os.environ.get('SECRET_KEY',)
+#     "VERIFYING_KEY": "",
+#     "AUDIENCE": None,
+#     "ISSUER": None,
+#     "JSON_ENCODER": None,
+#     "JWK_URL": None,
+#     "LEEWAY": 0,
+#
+#     "AUTH_HEADER_TYPES": ("Bearer",),
+#     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
+#     "USER_ID_FIELD": "id",
+#     "USER_ID_CLAIM": "user_id",
+#     "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",
+#
+#     "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
+#     "TOKEN_TYPE_CLAIM": "token_type",
+#     "TOKEN_USER_CLASS": "rest_framework_simplejwt.models.TokenUser",
+#
+#     "JTI_CLAIM": "jti",
+#
+#     "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
+#     "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
+#     "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
+#
+#     "TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainPairSerializer",
+#     "TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSerializer",
+#     "TOKEN_VERIFY_SERIALIZER": "rest_framework_simplejwt.serializers.TokenVerifySerializer",
+#     "TOKEN_BLACKLIST_SERIALIZER": "rest_framework_simplejwt.serializers.TokenBlacklistSerializer",
+#     "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
+#     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
+# }
 
-    "ALGORITHM": "HS256",
-    "SIGNING_KEY": SECRET_KEY, # SECRET_KEY = os.environ.get('SECRET_KEY',)
-    "VERIFYING_KEY": "",
-    "AUDIENCE": None,
-    "ISSUER": None,
-    "JSON_ENCODER": None,
-    "JWK_URL": None,
-    "LEEWAY": 0,
+AUTHENTICATION_BACKENDS = ('django_keycloak.backends.KeycloakAuthenticationBackend',)
 
-    "AUTH_HEADER_TYPES": ("Bearer",),
-    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
-    "USER_ID_FIELD": "id",
-    "USER_ID_CLAIM": "user_id",
-    "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",
 
-    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
-    "TOKEN_TYPE_CLAIM": "token_type",
-    "TOKEN_USER_CLASS": "rest_framework_simplejwt.models.TokenUser",
+KEYCLOAK_CONFIG = {
+    # The Keycloak's Public Server URL (e.g. http://localhost:8080)
+    'SERVER_URL': 'http://localhost:8282',
+    # The Keycloak's Internal URL
+    # (e.g. http://keycloak:8080 for a docker service named keycloak)
 
-    "JTI_CLAIM": "jti",
+    # Optional: Default is SERVER_URL
+    # 'INTERNAL_URL': '<INTERNAL_SERVER_URL>',
 
-    "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
-    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
-    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
-
-    "TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainPairSerializer",
-    "TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSerializer",
-    "TOKEN_VERIFY_SERIALIZER": "rest_framework_simplejwt.serializers.TokenVerifySerializer",
-    "TOKEN_BLACKLIST_SERIALIZER": "rest_framework_simplejwt.serializers.TokenBlacklistSerializer",
-    "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
-    "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
+    # Override for default Keycloak's base path
+    # Default is '/auth/'
+    'BASE_PATH': '/auth/',
+    # The name of the Keycloak's realm
+    'REALM': 'demo',
+    # The ID of this client in the above Keycloak realm
+    'CLIENT_ID': 'backend',
+    # The secret for this confidential client
+    'CLIENT_SECRET_KEY': os.environ.get('CLIENT_SECRET_KEY',), # в файле .env
+    # The name of the admin role for the client
+    # 'CLIENT_ADMIN_ROLE': '<CLIENT_ADMIN_ROLE>',
+    # The name of the admin role for the realm
+    # 'REALM_ADMIN_ROLE': '<REALM_ADMIN_ROLE>',
+    # Regex formatted URLs to skip authentication
+    'EXEMPT_URIS': [],
+    # Flag if the token should be introspected or decoded (default is False)
+    'DECODE_TOKEN': False,
+    # Flag if the audience in the token should be verified (default is True)
+    'VERIFY_AUDIENCE': True,
+    # Flag if the user info has been included in the token (default is True)
+    'USER_INFO_IN_TOKEN': True,
+    # Flag to show the traceback of debug logs (default is False)
+    'TRACE_DEBUG_LOGS': False,
+    # The token prefix that is expected in Authorization header (default is 'Bearer')
+    'TOKEN_PREFIX': 'Bearer'
 }
+
+AUTH_USER_MODEL = "django_keycloak.KeycloakUserAutoId"
