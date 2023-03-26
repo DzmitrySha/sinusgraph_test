@@ -1,12 +1,12 @@
 from keycloak import KeycloakOpenID
-import requests
+import os
 
 
 # Configure client
 keycloak_openid = KeycloakOpenID(server_url="http://localhost:8282/",
                                  client_id="backend",
                                  realm_name="demo",
-                                 client_secret_key="XYt5rrdx1KskTQx1Pu1IWT4XRgIvgPf4"
+                                 client_secret_key=os.environ.get('CLIENT_SECRET_KEY',)
                                  )
 
 # Get WellKnown
