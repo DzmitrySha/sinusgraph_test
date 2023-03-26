@@ -1,17 +1,17 @@
-version: '3.8'
+version: '3.9'
 
 services:
   web:
-    # Берем Dockerfile из каталога sinus
-    build: ./app
+    # Берем Dockerfile из каталога sinusgraph
+    build: ./
     # Запускаем тестовый сервер
     command: python manage.py runserver 0.0.0.0:8000
     # куда будут помещены данные из каталога app
     volumes:
-      - ./app/:/usr/src/app/
+      - ./:/usr/src/app/
     # Открываем порт 8000 внутри и снаружи
     ports:
-      - 8000:8000
+      - 8585:8000
     # Файл содержащий переменные для контейнера
     env_file:
       - ./.env

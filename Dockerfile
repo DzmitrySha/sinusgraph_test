@@ -5,11 +5,11 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /usr/src/app
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements.txt /usr/src/app/
+RUN python -m pip install -r requirements.txt
 
 COPY . .
 
-EXPOSE 8000
+EXPOSE 8585:8000
 
 CMD ["python", "manage.py", "runserver"]
