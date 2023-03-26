@@ -20,6 +20,7 @@ djangorestql = "^1.0.1"
 graphene-django = "^3.0.0"
 python-keycloak = "^2.14.0"
 djangorestframework-simplejwt = "^5.2.2"
+django-uw-keycloak = "^2.0.2"
 
 
 [tool.poetry.group.dev.dependencies]

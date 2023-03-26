@@ -69,6 +69,18 @@ html5lib = ["html5lib"]
 lxml = ["lxml"]
 
 [[package]]
+name = "cachetools"
+version = "5.3.0"
+description = "Extensible memoizing collections and decorators"
+category = "main"
+optional = false
+python-versions = "~=3.7"
+files = [
+    {file = "cachetools-5.3.0-py3-none-any.whl", hash = "sha256:429e1a1e845c008ea6c85aa35d4b98b65d6a9763eeef3e37e92728a12d1de9d4"},
+    {file = "cachetools-5.3.0.tar.gz", hash = "sha256:13dfddc7b8df938c21a940dfa6557ce6e94a2f1cdfa58eb90c805721d58f2c14"},
+]
+
+[[package]]
 name = "certifi"
 version = "2022.12.7"
 description = "Python package for providing Mozilla's CA Bundle."
@@ -324,6 +336,25 @@ files = [
 Django = ">=3.2"
 
 [[package]]
+name = "django-uw-keycloak"
+version = "2.0.2"
+description = "Middleware to allow authorization using Keycloak and Django"
+category = "main"
+optional = false
+python-versions = ">=3.7,<4"
+files = [
+    {file = "django_uw_keycloak-2.0.2-py3-none-any.whl", hash = "sha256:7254aa7937b66144aae1973c98f2ca14dde53ecd3f61b54ca3b1344f3d2e1fa2"},
+    {file = "django_uw_keycloak-2.0.2.tar.gz", hash = "sha256:4f781604c8db28f4fcd936dc772ebe7dfb7ca0318b201674a4e3c26c3f48547b"},
+]
+
+[package.dependencies]
+cachetools = ">=5.0.0"
+django = ">=2.2"
+djangorestframework = ">=3.0"
+dry-rest-permissions = ">=0.1"
+python-keycloak = ">=2.6.0"
+
+[[package]]
 name = "djangorestframework"
 version = "3.14.0"
 description = "Web APIs for Django, made easy."
@@ -374,6 +405,18 @@ python-versions = "*"
 files = [
     {file = "djangorestql-1.0.1-py3-none-any.whl", hash = "sha256:f1dcc67ad447d1417b2279c6177e96634888cb7ac3fd48071656188c173fe5a2"},
     {file = "djangorestql-1.0.1.tar.gz", hash = "sha256:af28f86058b0430d5318db004b8c1bb9def6786972a4bfc82f657d788b78e6be"},
+]
+
+[[package]]
+name = "dry-rest-permissions"
+version = "0.1.10"
+description = "Rules based permissions for the Django Rest Framework"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "dry-rest-permissions-0.1.10.tar.gz", hash = "sha256:1f40461184063390e5b24e9c5602eb8cc8c3c2433c796f39a5332065bfbddd2b"},
+    {file = "dry_rest_permissions-0.1.10-py2.py3-none-any.whl", hash = "sha256:f3fe685760004ce182801602819b43ebfa922e587036f1f5a5c10ffcfa646039"},
 ]
 
 [[package]]
@@ -1087,4 +1130,4 @@ brotli = ["Brotli"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "c0c6ac8c43e5f64241a5b037e613391756a3f5c36552a4bc82076482fcc1d1be"
+content-hash = "3e36701f8f1812f88440694cba21af4d43bde7c3a10912bf5e17ea57cd0e6f28"
