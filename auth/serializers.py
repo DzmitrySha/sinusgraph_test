@@ -1,7 +1,6 @@
-from django.contrib.auth.models import User, Group
-from mygraph.models import Book
-
 from rest_framework import serializers
+from django.contrib.auth.models import User, Group
+from mygraph.models import Book, Category
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -19,4 +18,10 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class BookSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Book
-        fields = ['id', 'name', 'notes', 'category']
+        fields = ('url', 'name', 'notes', 'category')
+
+
+class CategorySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('url', "name")
