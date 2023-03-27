@@ -3,9 +3,10 @@ import os
 
 
 # Configure client
-keycloak_openid = KeycloakOpenID(server_url="http://localhost:8282/",
+keycloak_openid = KeycloakOpenID(server_url="https://oauth.ias-test.energo.net/",
+                                 verify=False,  # отмена проверки сертификата https
                                  client_id="backend",
-                                 realm_name="demo",
+                                 realm_name="vitenergo",
                                  client_secret_key=os.environ.get('CLIENT_SECRET_KEY',)
                                  )
 
@@ -15,14 +16,15 @@ print(config_well_known)
 print(config_well_known["userinfo_endpoint"])
 
 
-#
-# # Get Code With Oauth Authorization Request
-# auth_url = keycloak_openid.auth_url(
-#     redirect_uri="http://localhost:8585/auth/",
-#     scope="email",
-#     state="your_state_info"
-# )
-#
+# Get Code With Oauth Authorization Request
+auth_url = keycloak_openid.auth_url(
+    redirect_uri="http://localhost:8585/auth/",
+    scope="email",
+    state="your_state_info"
+)
+print(auth_url)
+
+
 # # Get Access Token With Code
 # access_token = keycloak_openid.token(
 #     grant_type='authorization_code',
