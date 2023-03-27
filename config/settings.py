@@ -21,11 +21,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY',)
 # По-умолчанию DEBUG = False, если иное не указано в файле .env
 DEBUG = bool(os.environ.get('DEBUG', False))
 
-ALLOWED_HOSTS = ['*',
-                 '0.0.0.0',
-                 'localhost',
-                 '127.0.0.1',
-                 ]
+ALLOWED_HOSTS = ['*']
 # CSRF_TRUSTED_ORIGINS = []
 # X_FRAME_OPTIONS = '*'
 
@@ -41,16 +37,18 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # собираем статику с помощью whitenoise
     'whitenoise.runserver_nostatic',
+    # модуль для аутентификации через keycloak
+    'django_keycloak',
     # модуль для работы с graphQL
     "graphene_django",
     # приложение mygraph
     "mygraph.apps.MygraphConfig",
     # django REST framework
     'rest_framework',
+
     # модуль для аутентификации по JWT
     # 'rest_framework_simplejwt',
-    # модуль для аутентификации через keycloak
-    'django_keycloak',
+
 ]
 
 # если включён DEBUG = True, то добавляет возможность
@@ -63,18 +61,24 @@ if DEBUG:
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+
+    # добавлен слой для работы модуля django-uw-keycloak
+    'django_keycloak.middleware.KeycloakMiddleware',
+
     # добавлен слой whitenoise для сбора статики
     'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
+
     # добавлен слой locale для локализации проекта
     'django.middleware.locale.LocaleMiddleware',
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # добавлен слой для работы модуля django-uw-keycloak
-    'django_keycloak.middleware.KeycloakMiddleware',
+
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -165,6 +169,9 @@ FIXTURE_DIRS = ['fixtures']
 # default login redirect url, if needed
 # LOGIN_REDIRECT_URL = "/"
 
+AUTHENTICATION_BACKENDS = ('django_keycloak.backends.KeycloakAuthenticationBackend',)
+AUTH_USER_MODEL = "django_keycloak.KeycloakUserAutoId"
+
 GRAPHENE = {
     "SCHEMA": "mygraph.schema.schema"
 }
@@ -231,29 +238,27 @@ REST_FRAMEWORK = {
 #     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 # }
 
-AUTHENTICATION_BACKENDS = ('django_keycloak.backends.KeycloakAuthenticationBackend',)
-AUTH_USER_MODEL = "django_keycloak.KeycloakUserAutoId"
 
 KEYCLOAK_CONFIG = {
-    # The Keycloak's Public Server URL (e.g. http://localhost:8080)
-    'SERVER_URL': 'http://localhost:8282',
+    # The Keycloak's Public Server URL (e.g. http://localhost:8282 for docker)
+    'SERVER_URL': 'https://oauth.ias-test.energo.net/',
     # The Keycloak's Internal URL
-    # (e.g. http://keycloak:8080 for a docker service named keycloak)
+    # (e.g. http://keycloak:8282 for a docker service named keycloak)
 
     # Optional: Default is SERVER_URL
-    'INTERNAL_URL': 'http://localhost:8282',
+    'INTERNAL_URL': 'https://oauth.ias-test.energo.net/',
 
     # Override for default Keycloak's base path
     # Default is '/auth/'
     'BASE_PATH': '/',
     # The name of the Keycloak's realm
-    'REALM': 'demo',
+    'REALM': 'vitenergo',
     # The ID of this client in the above Keycloak realm
-    'CLIENT_ID': 'demo',
+    'CLIENT_ID': 'backend',
     # The secret for this confidential client
-    'CLIENT_SECRET_KEY': os.environ.get('CLIENT_SECRET_KEY',), # в файле .env
+    'CLIENT_SECRET_KEY': os.environ.get('CLIENT_SECRET_KEY',),  # в файле .env
     # The name of the admin role for the client
-    'CLIENT_ADMIN_ROLE': 'user',
+    'CLIENT_ADMIN_ROLE': 'admin',
     # The name of the admin role for the realm
     'REALM_ADMIN_ROLE': 'admin',
     # Regex formatted URLs to skip authentication
@@ -261,7 +266,7 @@ KEYCLOAK_CONFIG = {
     # Flag if the token should be introspected or decoded (default is False)
     'DECODE_TOKEN': False,
     # Flag if the audience in the token should be verified (default is True)
-    'VERIFY_AUDIENCE': True,
+    'VERIFY_AUDIENCE': False,
     # Flag if the user info has been included in the token (default is True)
     'USER_INFO_IN_TOKEN': True,
     # Flag to show the traceback of debug logs (default is False)
