@@ -301,6 +301,22 @@ files = [
 Django = ">=3.2"
 
 [[package]]
+name = "django-keycloak-auth"
+version = "0.9.5"
+description = "Django Keycloak Auth is Python package providing access to the Keycloak API."
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-keycloak-auth-0.9.5.tar.gz", hash = "sha256:7e604c365d0a01911af71a80c076069b2db0205bfa311910ce16c3114df865a1"},
+]
+
+[package.dependencies]
+Django = "*"
+djangorestframework = ">=3.10.0"
+requests = ">=2.24.0"
+
+[[package]]
 name = "django-uw-keycloak"
 version = "2.0.2"
 description = "Middleware to allow authorization using Keycloak and Django"
@@ -1083,4 +1099,4 @@ brotli = ["Brotli"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "7423451463d07cbbf373bc46cbaaa620e9a767c45e9a74e7febf4062a961a2a2"
+content-hash = "bbf1ae60ac47d5ba16fdc5cf567bc524d5118055201dee647727ea07c00b4581"
