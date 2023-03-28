@@ -3,9 +3,9 @@ import os
 
 
 # Configure client
-keycloak_openid = KeycloakOpenID(server_url="https://oauth.ias-test.energo.net/",
-                                 verify=False,  # отмена проверки сертификата https
-                                 client_id="backend",
+keycloak_openid = KeycloakOpenID(server_url="http://localhost:8282/",
+                                 verify=True,  # отмена проверки сертификата https
+                                 client_id="test",
                                  realm_name="vitenergo",
                                  client_secret_key=os.environ.get('CLIENT_SECRET_KEY',)
                                  )
@@ -13,35 +13,42 @@ keycloak_openid = KeycloakOpenID(server_url="https://oauth.ias-test.energo.net/"
 # Get WellKnown
 config_well_known = keycloak_openid.well_known()
 print(config_well_known)
-print(config_well_known["userinfo_endpoint"])
 
 
 # Get Code With Oauth Authorization Request
 auth_url = keycloak_openid.auth_url(
-    redirect_uri="http://localhost:8585/auth/",
-    scope="email",
-    state="your_state_info"
+    redirect_uri="http://localhost:8585",
+    scope="openid",
+    state="test"
 )
 print(auth_url)
 
 
-# # Get Access Token With Code
-# access_token = keycloak_openid.token(
-#     grant_type='authorization_code',
-#     code='the_code_you_get_from_auth_url_callback',
-#     redirect_uri="http://localhost:8585/auth/"
-# )
-#
-#
-# # Get Token
-# token = keycloak_openid.token("user", "password")
-# # token = keycloak_openid.token("user", "password", totp="012345")
-#
+# Get Access Token With Code
+access_token = keycloak_openid.token(
+    grant_type='authorization_code',
+    code='6975cd6f-862c-4ac1-a2d9-03989ba43bc4&code=deddadfb-9c7f-413f-9e0b-3ec62bbc1263.6975cd6f-862c-4ac1-a2d9-03989ba43bc4.6ea11da4-5650-4495-b386-5b1d6c6d497f',
+    redirect_uri="http://localhost:8585"
+)
+
+
+# Get Token
+token = keycloak_openid.token(
+    "admin", "admin",
+    grant_type='client_credentials',
+    code='6975cd6f-862c-4ac1-a2d9-03989ba43bc4&code=deddadfb-9c7f-413f-9e0b-3ec62bbc1263.6975cd6f-862c-4ac1-a2d9-03989ba43bc4.6ea11da4-5650-4495-b386-5b1d6c6d497f',
+    redirect_uri="http://localhost:8585"
+)
+# token = keycloak_openid.token("user", "password", totp="012345")
+
 # # Get token using Token Exchange
 # token = keycloak_openid.exchange_token(token['access_token'], "my_client", "other_client", "some_user")
 #
 # # Get Userinfo
-# userinfo = keycloak_openid.userinfo(token['access_token'])
+userinfo = keycloak_openid.userinfo(token['access_token'])
+
+print(userinfo)
+
 #
 # # Refresh token
 # token = keycloak_openid.refresh_token(token['refresh_token'])
