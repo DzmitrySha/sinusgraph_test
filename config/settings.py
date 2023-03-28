@@ -22,7 +22,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY',)
 DEBUG = bool(os.environ.get('DEBUG', False))
 
 ALLOWED_HOSTS = ['*']
-# CSRF_TRUSTED_ORIGINS = []
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8585/*', 'http://localhost:8282/*']
 # X_FRAME_OPTIONS = '*'
 
 
