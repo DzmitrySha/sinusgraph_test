@@ -18,6 +18,7 @@ django-extensions==3.2.1
 django-uw-keycloak==2.0.2
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.2
+django-rest-framework-keycloak==0.2.0
 djangorestql==1.0.1
 dry-rest-permissions==0.1.10
 dulwich==0.21.3
